@@ -11320,11 +11320,13 @@ var Parser = function (_Emitter) {
     var result = null;
     var error = null;
 
-    this.variableMap.map(function (mapping) {
-      var regEx = new RegExp(mapping.oldName, 'g');
-      expression = expression.replace(regEx, mapping.newName);
-      return mapping;
-    });
+    if (typeof expression === 'string') {
+      this.variableMap.map(function (mapping) {
+        var regEx = new RegExp(mapping.oldName, 'g');
+        expression = expression.replace(regEx, mapping.newName);
+        return mapping;
+      });
+    }
 
     try {
       if (expression === '') {
@@ -11411,7 +11413,7 @@ var Parser = function (_Emitter) {
 
 
   Parser.prototype._callVariable = function _callVariable(name) {
-    name = this.replaceNumbers(name);
+    name = name !== void 0 ? this.replaceNumbers(name) : name;
     var value = this.getVariable(name);
 
     this.emit('callVariable', name, function (newValue) {
