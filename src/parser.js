@@ -44,11 +44,13 @@ class Parser extends Emitter {
     let result = null;
     let error = null;
 
-    this.variableMap.map((mapping) => {
-      const regEx = new RegExp(mapping.oldName, 'g');
-      expression = expression.replace(regEx, mapping.newName);
-      return mapping;
-    });
+    if (typeof(expression) === 'string') {
+      this.variableMap.map((mapping) => {
+        const regEx = new RegExp(mapping.oldName, 'g');
+        expression = expression.replace(regEx, mapping.newName);
+        return mapping;
+      });
+    }
 
     try {
       if (expression === '') {
@@ -138,7 +140,7 @@ class Parser extends Emitter {
    * @private
    */
   _callVariable(name) {
-    name = this.replaceNumbers(name);
+    name = (name !== void 0) ? this.replaceNumbers(name) : name;
     let value = this.getVariable(name);
 
     this.emit('callVariable', name, (newValue) => {
