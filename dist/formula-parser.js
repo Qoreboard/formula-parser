@@ -11302,6 +11302,7 @@ var Parser = function (_Emitter) {
     };
     _this.variables = Object.create(null);
     _this.functions = Object.create(null);
+    _this.variableMap = [];
 
     _this.setVariable('TRUE', true).setVariable('FALSE', false).setVariable('NULL', null);
     return _this;
@@ -11318,6 +11319,14 @@ var Parser = function (_Emitter) {
   Parser.prototype.parse = function parse(expression) {
     var result = null;
     var error = null;
+
+    if (typeof expression === 'string') {
+      this.variableMap.map(function (mapping) {
+        var regEx = new RegExp(mapping.oldName, 'g');
+        expression = expression.replace(regEx, mapping.newName);
+        return mapping;
+      });
+    }
 
     try {
       if (expression === '') {
@@ -11347,6 +11356,20 @@ var Parser = function (_Emitter) {
   };
 
   /**
+   * Replaces numbers with string equivalents - also maintains table of replacements for later
+   *
+   * @param {String} name Variable name.
+   * @returns {String}
+   */
+
+
+  Parser.prototype.replaceNumbers = function replaceNumbers(name) {
+    var newName = name.replace(/0/g, 'zero').replace(/1/g, 'one').replace(/2/g, 'two').replace(/3/g, 'three').replace(/4/g, 'four').replace(/5/g, 'five').replace(/6/g, 'six').replace(/7/g, 'seven').replace(/8/g, 'eight').replace(/9/g, 'nine');
+
+    return newName;
+  };
+
+  /**
    * Set predefined variable name which can be visible while parsing formula expression.
    *
    * @param {String} name Variable name.
@@ -11356,7 +11379,13 @@ var Parser = function (_Emitter) {
 
 
   Parser.prototype.setVariable = function setVariable(name, value) {
-    this.variables[name] = value;
+    var newName = this.replaceNumbers(name);
+    var mappingObject = {
+      oldName: name,
+      newName: newName
+    };
+    this.variableMap.push(mappingObject);
+    this.variables[newName] = value;
 
     return this;
   };
@@ -11370,6 +11399,7 @@ var Parser = function (_Emitter) {
 
 
   Parser.prototype.getVariable = function getVariable(name) {
+    name = this.replaceNumbers(name);
     return this.variables[name];
   };
 
@@ -11383,6 +11413,7 @@ var Parser = function (_Emitter) {
 
 
   Parser.prototype._callVariable = function _callVariable(name) {
+    name = name !== void 0 ? this.replaceNumbers(name) : name;
     var value = this.getVariable(name);
 
     this.emit('callVariable', name, function (newValue) {

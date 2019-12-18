@@ -26,6 +26,7 @@ class Parser extends Emitter {
     };
     this.variables = Object.create(null);
     this.functions = Object.create(null);
+    this.variableMap = [];
 
     this
       .setVariable('TRUE', true)
@@ -42,6 +43,14 @@ class Parser extends Emitter {
   parse(expression) {
     let result = null;
     let error = null;
+
+    if (typeof(expression) === 'string') {
+      this.variableMap.map((mapping) => {
+        const regEx = new RegExp(mapping.oldName, 'g');
+        expression = expression.replace(regEx, mapping.newName);
+        return mapping;
+      });
+    }
 
     try {
       if (expression === '') {
@@ -71,6 +80,29 @@ class Parser extends Emitter {
   }
 
   /**
+   * Replaces numbers with string equivalents - also maintains table of replacements for later
+   *
+   * @param {String} name Variable name.
+   * @returns {String}
+   */
+  replaceNumbers(name) {
+    const newName =
+    name
+      .replace(/0/g, 'zero')
+      .replace(/1/g, 'one')
+      .replace(/2/g, 'two')
+      .replace(/3/g, 'three')
+      .replace(/4/g, 'four')
+      .replace(/5/g, 'five')
+      .replace(/6/g, 'six')
+      .replace(/7/g, 'seven')
+      .replace(/8/g, 'eight')
+      .replace(/9/g, 'nine');
+
+    return newName;
+  }
+
+  /**
    * Set predefined variable name which can be visible while parsing formula expression.
    *
    * @param {String} name Variable name.
@@ -78,7 +110,13 @@ class Parser extends Emitter {
    * @returns {Parser}
    */
   setVariable(name, value) {
-    this.variables[name] = value;
+    const newName = this.replaceNumbers(name);
+    const mappingObject = {
+      oldName: name,
+      newName,
+    };
+    this.variableMap.push(mappingObject);
+    this.variables[newName] = value;
 
     return this;
   }
@@ -90,6 +128,7 @@ class Parser extends Emitter {
    * @returns {*}
    */
   getVariable(name) {
+    name = this.replaceNumbers(name);
     return this.variables[name];
   }
 
@@ -101,6 +140,7 @@ class Parser extends Emitter {
    * @private
    */
   _callVariable(name) {
+    name = (name !== void 0) ? this.replaceNumbers(name) : name;
     let value = this.getVariable(name);
 
     this.emit('callVariable', name, (newValue) => {

@@ -19,7 +19,8 @@
     "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack src/index.js dist/formula-parser.js",
     "generate-parser": "cd src/grammar-parser && jison grammar-parser.jison",
     "release": "generate-release",
-    "prepublish": "npm run clean && npm run check && npm run build"
+    "prepublish": "npm run clean && npm run check && npm run build",
+    "prepare": "npm run clean && npm run check && npm run build"
   },
   "repository": {
     "type": "git",
