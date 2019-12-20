@@ -13,7 +13,7 @@ Library provides a `Parser` class that evaluates excel and mathematical formulas
 A recommended way to install Formula Parser is through [NPM](https://www.npmjs.com/) using the following command:
 
 ```sh
-$ npm install @qoreboard/hot-formula-parser --save
+$ npm install @qoreboard/formula-parser --save
 ```
 
 Node.js:
