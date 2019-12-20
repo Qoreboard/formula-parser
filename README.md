@@ -1,5 +1,9 @@
-Formula Parser [![Build Status](https://travis-ci.org/handsontable/formula-parser.png?branch=master)](https://travis-ci.org/handsontable/formula-parser) [![Test Coverage](https://codeclimate.com/github/handsontable/formula-parser/badges/coverage.svg)](https://codeclimate.com/github/handsontable/formula-parser/coverage) [![hot-formula-parser](https://img.shields.io/npm/v/hot-formula-parser.svg)](https://www.npmjs.com/package/hot-formula-parser)
+Formula Parser
 ==========
+
+This project was forked from Handsontable's [hot-formula-parser](https://www.npmjs.com/package/hot-formula-parser) and modified for our needs.  
+Please view the [Releases section](https://github.com/qoreboard/formula-parser/releases) to see what has been changed before deciding to use this version.
+
 Library provides a `Parser` class that evaluates excel and mathematical formulas.
 
 - - -
@@ -9,7 +13,7 @@ Library provides a `Parser` class that evaluates excel and mathematical formulas
 A recommended way to install Formula Parser is through [NPM](https://www.npmjs.com/) using the following command:
 
 ```sh
-$ npm install hot-formula-parser --save
+$ npm install @qoreboard/hot-formula-parser --save
 ```
 
 Node.js:
@@ -227,12 +231,8 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ### Changelog
 
-To see the list of recent changes, see [Releases section](https://github.com/handsontable/formula-parser/releases).
+To see the list of recent changes, see [Releases section](https://github.com/qoreboard/formula-parser/releases).
 
 ### License
 
-The MIT License (see the [LICENSE](https://github.com/handsontable/formula-parser/blob/master/LICENSE) file for the full text).
-
-### Contact
-
-You can contact us at hello@handsontable.com.
+The MIT License (see the [LICENSE](https://github.com/qoreboard/formula-parser/blob/master/LICENSE) file for the full text).
