@@ -1,4 +1,4 @@
-import * as formulajs from '@handsontable/formulajs';
+import * as formulajs from '@qoreboard/formulajs';
 import SUPPORTED_FORMULAS from './../../supported-formulas';
 import {ERROR_NAME} from './../../error';
 
